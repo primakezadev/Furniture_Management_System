@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -8,33 +9,80 @@ if (!isset($_SESSION["admin_id"])) {
 
 require_once __DIR__ . "/../config/database.php";
 
-// Get admin username
 $username = htmlspecialchars(
-    $_SESSION["admin_username"],
+    $_SESSION["admin_username"] ?? "Administrator",
     ENT_QUOTES,
     "UTF-8"
 );
 
-// Count furniture
-$furnitureQuery = $conn->query(
+// Statistics
+$totalFurniture = (int)$conn->query(
     "SELECT COUNT(*) FROM furniture"
-);
-$totalFurniture = $furnitureQuery->fetchColumn();
+)->fetchColumn();
 
-// Count customers
-$customerQuery = $conn->query(
+$totalCustomers = (int)$conn->query(
     "SELECT COUNT(*) FROM customers"
-);
-$totalCustomers = $customerQuery->fetchColumn();
+)->fetchColumn();
 
-// Count orders
-$orderQuery = $conn->query(
+$totalOrders = (int)$conn->query(
     "SELECT COUNT(*) FROM orders"
-);
-$totalOrders = $orderQuery->fetchColumn();
+)->fetchColumn();
 
-$pageTitle = "Admin Dashboard";
-// Get the five most recent orders
+$pendingOrders = (int)$conn->query(
+    "SELECT COUNT(*) FROM orders WHERE status = 'Pending'"
+)->fetchColumn();
+
+$lowStock = (int)$conn->query(
+    "SELECT COUNT(*) FROM furniture WHERE quantity <= 5"
+)->fetchColumn();
+
+// Sales this month
+$salesQuery = $conn->query("
+    SELECT COALESCE(SUM(total_amount), 0)
+    FROM orders
+    WHERE MONTH(order_date) = MONTH(CURRENT_DATE())
+    AND YEAR(order_date) = YEAR(CURRENT_DATE())
+    AND status = 'Completed'
+");
+
+$monthlySales = (float)$salesQuery->fetchColumn();
+
+// Last six months sales
+$salesChartQuery = $conn->query("
+    SELECT
+        DATE_FORMAT(order_date, '%Y-%m') AS month_key,
+        DATE_FORMAT(order_date, '%b') AS month_name,
+        SUM(total_amount) AS sales
+    FROM orders
+    WHERE order_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH)
+    AND status = 'Completed'
+    GROUP BY month_key, month_name
+    ORDER BY month_key
+");
+
+$salesRows = $salesChartQuery->fetchAll(PDO::FETCH_ASSOC);
+
+$salesByMonth = [];
+
+foreach ($salesRows as $row) {
+    $salesByMonth[$row["month_key"]] = (float)$row["sales"];
+}
+
+$chartLabels = [];
+$chartValues = [];
+
+for ($i = 5; $i >= 0; $i--) {
+    $date = new DateTime("first day of -$i month");
+    $key = $date->format("Y-m");
+
+    $chartLabels[] = $date->format("M");
+    $chartValues[] = $salesByMonth[$key] ?? 0;
+}
+
+$maxSales = max($chartValues);
+$maxSales = $maxSales > 0 ? $maxSales : 1;
+
+// Recent orders
 $recentOrdersQuery = $conn->query("
     SELECT
         orders.order_id,
@@ -50,107 +98,271 @@ $recentOrdersQuery = $conn->query("
 ");
 
 $recentOrders = $recentOrdersQuery->fetchAll(PDO::FETCH_ASSOC);
+
+$pageTitle = "Admin Overview";
+
+require_once __DIR__ . "/../includes/header.php";
+require_once __DIR__ . "/../includes/sidebar.php";
 ?>
-
-<?php require_once __DIR__ . "/../includes/header.php"; ?>
-
-<?php require_once __DIR__ . "/../includes/sidebar.php"; ?>
 
 <main class="main-content">
 
-    <div class="topbar">
-        <h2>Admin Dashboard</h2>
-        <p>Welcome, <?php echo $username; ?></p>
-    </div>
-
-    <h2>Overview</h2>
-    <br>
-
-    <div class="dashboard-cards">
-
-        <div class="dashboard-card">
-            <h3>Total Furniture</h3>
-            <p><?php echo $totalFurniture; ?></p>
+    <header class="topbar">
+        <div class="breadcrumb">
+            Workspace <span>/</span> Overview
         </div>
 
-        <div class="dashboard-card">
-            <h3>Total Customers</h3>
-            <p><?php echo $totalCustomers; ?></p>
+        <div class="admin-profile">
+            <i class="fa-regular fa-bell"></i>
+
+            <div class="profile-circle">
+                <?= strtoupper(substr($username, 0, 1)) ?>
+            </div>
+
+            <div>
+                <strong><?= $username ?></strong>
+                <small>Administrator</small>
+            </div>
+        </div>
+    </header>
+
+    <section class="welcome-section">
+
+        <div>
+            <p class="date-label">
+                <?= strtoupper(date("l, F d, Y")) ?>
+            </p>
+
+            <h1>Good morning, <?= $username ?>.</h1>
+
+            <p>Here's what's happening at Form & Field today.</p>
         </div>
 
-        <div class="dashboard-card">
-            <h3>Total Orders</h3>
-            <p><?php echo $totalOrders; ?></p>
+        <a href="add_furniture.php" class="register-btn">
+            Register furniture <i class="fa-solid fa-plus"></i>
+        </a>
+
+    </section>
+
+    <!-- Statistics -->
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-heading">
+                <span>Total furniture</span>
+                <i class="fa-solid fa-couch"></i>
+            </div>
+
+            <h2><?= $totalFurniture ?></h2>
+            <small>Items in your collection</small>
         </div>
 
-    </div>
-    <br><br>
+        <div class="stat-card">
+            <div class="stat-heading">
+                <span>Customers</span>
+                <i class="fa-solid fa-users"></i>
+            </div>
 
-<section class="recent-orders">
+            <h2><?= $totalCustomers ?></h2>
+            <small>Registered customers</small>
+        </div>
 
-    <h2>Recent Orders</h2>
+        <div class="stat-card">
+            <div class="stat-heading">
+                <span>Incoming orders</span>
+                <i class="fa-solid fa-box"></i>
+            </div>
 
-    <br>
+            <h2><?= $pendingOrders ?></h2>
+            <small>Awaiting confirmation</small>
+        </div>
 
-    <div class="table-container">
+        <div class="stat-card">
+            <div class="stat-heading">
+                <span>Sales this month</span>
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
 
-        <table>
+            <h2><?= number_format($monthlySales, 0) ?> RWF</h2>
+            <small>Completed orders this month</small>
+        </div>
 
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Order Date</th>
-                    <th>Amount (RWF)</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+    </section>
 
-            <tbody>
+    <!-- Sales and Attention -->
+    <section class="overview-grid">
 
-                <?php if (count($recentOrders) > 0): ?>
+        <div class="sales-card">
 
-                    <?php foreach ($recentOrders as $order): ?>
+            <div class="section-heading">
+                <div>
+                    <h3>Sales overview</h3>
+                    <p>Completed orders · Last 6 months</p>
+                </div>
 
-                        <tr>
-                            <td>
-                                <?= htmlspecialchars($order["order_id"]) ?>
-                            </td>
+                <span><?= date("Y") ?></span>
+            </div>
 
-                            <td>
-                                <?= htmlspecialchars($order["full_name"]) ?>
-                            </td>
+            <div class="chart">
 
-                            <td>
-                                <?= htmlspecialchars($order["order_date"]) ?>
-                            </td>
+                <div class="chart-y-labels">
+                    <span><?= number_format($maxSales, 0) ?></span>
+                    <span><?= number_format($maxSales * .66, 0) ?></span>
+                    <span><?= number_format($maxSales * .33, 0) ?></span>
+                    <span>0</span>
+                </div>
 
-                            <td>
-                                <?= number_format((float)$order["total_amount"], 0) ?>
-                            </td>
+                <div class="chart-bars">
 
-                            <td>
-                                <?= htmlspecialchars($order["status"]) ?>
-                            </td>
-                        </tr>
+                    <?php foreach ($chartValues as $index => $value): ?>
+
+                        <?php
+                        $height = $value > 0
+                            ? max(3, ($value / $maxSales) * 100)
+                            : 2;
+                        ?>
+
+                        <div class="chart-column">
+
+                            <div class="bar"
+                                 style="height: <?= $height ?>%">
+                            </div>
+
+                            <small><?= $chartLabels[$index] ?></small>
+
+                        </div>
 
                     <?php endforeach; ?>
 
-                <?php else: ?>
+                </div>
 
+            </div>
+
+        </div>
+
+        <div class="attention-card">
+
+            <h2>A little attention.</h2>
+
+            <div class="attention-item">
+                <i class="fa-solid fa-box-open"></i>
+
+                <div>
+                    <strong><?= $pendingOrders ?> orders need confirmation</strong>
+                    <small>Review incoming customer orders</small>
+                </div>
+
+                <a href="manage_orders.php">↗</a>
+            </div>
+
+            <div class="attention-item">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <div>
+                    <strong><?= $lowStock ?> pieces are running low</strong>
+                    <small>Furniture with 5 or fewer items in stock</small>
+                </div>
+
+                <a href="manage_furniture.php">↗</a>
+            </div>
+
+            <a href="manage_orders.php" class="review-btn">
+                Review incoming orders
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- Recent Orders -->
+    <section class="recent-orders">
+
+        <div class="orders-heading">
+            <h3>Recent orders</h3>
+            <a href="manage_orders.php">View all orders →</a>
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
                     <tr>
-                        <td colspan="5">No orders have been placed yet.</td>
+                        <th>ORDER</th>
+                        <th>CUSTOMER</th>
+                        <th>PLACED</th>
+                        <th>TOTAL</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
                     </tr>
+                </thead>
 
-                <?php endif; ?>
+                <tbody>
 
-            </tbody>
+                    <?php if (count($recentOrders) > 0): ?>
 
-        </table>
+                        <?php foreach ($recentOrders as $order): ?>
 
-    </div>
+                            <tr>
+                                <td>
+                                    #FF-<?= htmlspecialchars($order["order_id"]) ?>
+                                </td>
 
-</section>
+                                <td>
+                                    <?= htmlspecialchars($order["full_name"]) ?>
+                                </td>
+
+                                <td>
+                                    <?= date(
+                                        "M d, Y",
+                                        strtotime($order["order_date"])
+                                    ) ?>
+                                </td>
+
+                                <td>
+                                    <?= number_format(
+                                        (float)$order["total_amount"],
+                                        0
+                                    ) ?> RWF
+                                </td>
+
+                                <td>
+                                    <span class="status-badge <?= strtolower(str_replace(' ', '-', $order["status"])) ?>">
+                                        <?= htmlspecialchars($order["status"]) ?>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a class="view-link" href="manage_orders.php">
+                                        View order →
+                                    </a>
+                                </td>
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+
+                        <tr>
+                            <td colspan="6" class="empty-orders">
+                                No orders have been placed yet.
+                            </td>
+                        </tr>
+
+                    <?php endif; ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <footer class="page-footer">
+        <span>Form & Field · Furniture information management</span>
+        <span>© <?= date("Y") ?></span>
+    </footer>
 
 </main>
 
