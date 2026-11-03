@@ -1,0 +1,355 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #F7F6F2;
+    color: #252B27;
+}
+
+.login-page {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* LEFT BRAND SECTION */
+
+.brand-section {
+    width: 40%;
+    min-height: 100vh;
+    padding: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(30, 32, 24, 0.25),
+            rgba(30, 32, 24, 0.45)
+        ),
+        url("../images/background.jpeg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.brand-logo h1 {
+    font-family: Georgia, serif;
+    font-size: 25px;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.brand-logo p {
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-top: 7px;
+}
+
+.brand-content span {
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.brand-content h2 {
+    font-family: Georgia, serif;
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 18px 0;
+}
+
+.brand-content p {
+    font-size: 12px;
+    line-height: 1.8;
+    max-width: 400px;
+    margin-bottom: 18px;
+}
+
+.brand-content a {
+    color: white;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+/* RIGHT FORM SECTION */
+
+.form-section {
+    width: 60%;
+    min-height: 100vh;
+    background: #F7F6F2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 35px;
+}
+
+.top-link {
+    width: 100%;
+    text-align: right;
+    font-size: 10px;
+    color: #727970;
+}
+
+.top-link a,
+.form-options a,
+.register-link a {
+    color: #294F40;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.login-content {
+    width: 100%;
+    max-width: 345px;
+    margin: auto;
+    padding: 35px 0;
+}
+
+.welcome-text span {
+    color: #294F40;
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.welcome-text h2 {
+    font-family: Georgia, serif;
+    font-size: 25px;
+    font-weight: normal;
+    margin: 8px 0;
+}
+
+.welcome-text p {
+    color: #85877F;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+/* ROLE SELECTION */
+
+.role-label {
+    font-size: 11px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 9px;
+}
+
+.role-selection {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.role-option {
+    flex: 1;
+    height: 47px;
+    border: 1px solid #DDDCD5;
+    border-radius: 5px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 12px;
+    font-size: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.role-option input {
+    display: none;
+}
+
+.role-option.selected {
+    background: #E8EEE9;
+    border: 1px solid #294F40;
+}
+
+.role-option > span:first-of-type {
+    color: #294F40;
+    font-size: 17px;
+}
+
+.role-option .check {
+    margin-left: auto;
+    color: #294F40;
+    font-weight: bold;
+}
+
+/* FORM FIELDS */
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.form-group input {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #DDDCD5;
+    border-radius: 5px;
+    background: white;
+    padding: 0 10px;
+    font-size: 11px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #294F40;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 45px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: #85877F;
+    cursor: pointer;
+}
+
+/* REMEMBER ME */
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    margin: 15px 0 20px;
+    color: #85877F;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.remember input {
+    accent-color: #294F40;
+}
+
+.form-options a {
+    margin-left: 0;
+}
+
+/* SIGN IN BUTTON */
+
+.sign-in-button {
+    width: 100%;
+    height: 34px;
+    background: #294F40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.sign-in-button:hover {
+    background: #1E3C30;
+}
+
+.sign-in-button span {
+    margin-left: 8px;
+    font-size: 16px;
+}
+
+.register-link {
+    text-align: center;
+    font-size: 10px;
+    color: #85877F;
+    margin-top: 20px;
+}
+
+.register-link a {
+    margin-left: 4px;
+}
+
+/* ERROR MESSAGE */
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FCEFEB;
+    color: #C54B3D;
+    padding: 13px;
+    border-radius: 5px;
+    font-size: 10px;
+    margin-bottom: 20px;
+}
+
+/* FOOTER */
+
+.login-footer {
+    font-size: 9px;
+    color: #85877F;
+    padding: 10px;
+    text-align: center;
+}
+
+.login-footer a {
+    color: #85877F;
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+.login-footer span {
+    color: #C5C5BC;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 768px) {
+
+    .login-page {
+        flex-direction: column;
+    }
+
+    .brand-section {
+        width: 100%;
+        min-height: 300px;
+        padding: 25px;
+    }
+
+    .brand-content h2 {
+        font-size: 27px;
+    }
+
+    .form-section {
+        width: 100%;
+        min-height: 650px;
+        padding: 25px;
+    }
+
+    .login-content {
+        margin: 40px auto;
+    }
+
+    .top-link {
+        text-align: center;
+    }
+
+}
