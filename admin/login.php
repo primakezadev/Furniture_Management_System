@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -8,39 +7,77 @@ $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $username = trim($_POST["username"] ?? "");
+    $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
+    $role = $_POST["role"] ?? "customer";
+  
 
-    if (empty($username) || empty($password)) {
-        $error = "Please enter both username and password.";
+
+
+    if (empty($email) || empty($password)) {
+        $error = "Please enter your email and password.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please enter a valid email address.";
     } else {
+
         try {
-            $sql = "SELECT admin_id, username, password
-                    FROM admins
-                    WHERE username = :username";
 
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([':username' => $username]);
+            if ($role === "admin") {
 
-            $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+                $sql = "SELECT admin_id, username, email, password
+                        FROM admins
+                        WHERE email = :email";
 
-            if ($admin && password_verify($password, $admin["password"])) {
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':email' => $email]);
 
-                session_regenerate_id(true);
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                $_SESSION["admin_id"] = $admin["admin_id"];
-                $_SESSION["admin_username"] = $admin["username"];
+                if ($user && password_verify($password, $user["password"])) {
 
-                header("Location: dashboard.php");
-                exit;
+                    session_regenerate_id(true);
+
+                    $_SESSION["admin_id"] = $user["admin_id"];
+                    $_SESSION["admin_username"] = $user["username"];
+
+                    header("Location: dashboard.php");
+                    exit;
+
+                } else {
+                    $error = "The email and password don't match. Please try again.";
+                }
 
             } else {
-                $error = "Invalid username or password.";
+
+                $sql = "SELECT customer_id, full_name, email, password
+                        FROM customers
+                        WHERE email = :email";
+
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':email' => $email]);
+
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($user && password_verify($password, $user["password"])) {
+
+                    session_regenerate_id(true);
+
+                    $_SESSION["customer_id"] = $user["customer_id"];
+                    $_SESSION["customer_name"] = $user["full_name"];
+
+                    header("Location: ../customer/dashboard.php");
+                    exit;
+
+                } else {
+                    $error = "The email and password don't match. Please try again.";
+                }
             }
 
         } catch (PDOException $e) {
-            error_log("Admin login error: " . $e->getMessage());
+
+            error_log("Login error: " . $e->getMessage());
             $error = "A system error occurred. Please try again.";
+
         }
     }
 }
@@ -48,135 +85,235 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Furniture Management</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    <title>Sign In | Form & Field</title>
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background: #f3f0eb;
-            color: #29251f;
-        }
-
-        .login-container {
-            width: 90%;
-            max-width: 400px;
-            padding: 35px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        h2 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #777;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 18px;
-            border: 1px solid #d8d3cc;
-            border-radius: 5px;
-            font-size: 15px;
-        }
-
-        input:focus {
-            outline: 2px solid #a78b65;
-            border-color: #a78b65;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #65513b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #4d3d2c;
-        }
-
-        .error {
-            padding: 10px;
-            margin-bottom: 18px;
-            background: #fde8e8;
-            color: #a12626;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 
 <body>
 
-<div class="login-container">
+<div class="login-page">
 
-    <h2>Admin Login</h2>
+    <!-- LEFT BRANDING SECTION -->
 
-    <p class="subtitle">Furniture Management System</p>
+    <section class="brand-section">
 
-    <?php if (!empty($error)): ?>
-        <div class="error">
-            <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <div class="brand-logo">
+            <h1>FORM & FIELD</h1>
+            <p>FURNITURE FOR A CONSIDERED LIFE</p>
         </div>
-    <?php endif; ?>
 
-    <form method="POST" action="">
+        <div class="brand-content">
 
-        <label for="username">Username</label>
+            <span>THOUGHTFULLY BY NATURE</span>
+
+            <h2>
+                A little more natural.<br>
+                A little more you.
+            </h2>
+
+            <p>
+                Honest materials. Enduring forms.
+                Furniture that makes room for the life you love.
+            </p>
+
+            <a href="../index.php">Discover the collection ↗</a>
+
+        </div>
+
+    </section>
+
+
+    <!-- RIGHT LOGIN SECTION -->
+
+    <section class="form-section">
+
+        <div class="top-link">
+            New here?
+            <a href="../register.php">Create an account</a>
+        </div>
+
+        <div class="login-content">
+
+            <div class="welcome-text">
+
+                <span>WELCOME TO FORM & FIELD</span>
+
+                <h2>Make yourself at home.</h2>
+
+                <p>Sign in to discover considered pieces for your space.</p>
+
+            </div>
+
+
+            <form method="POST" action="">
+
+                <label class="role-label">I'm signing in as</label>
+
+                <div class="role-selection">
+
+    <label class="role-option selected">
         <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            autocomplete="username"
+            type="radio"
+            name="role"
+            value="customer"
+            checked
         >
 
-        <label for="password">Password</label>
+        <span>♙</span>
+        Customer
+        <span class="check">✓</span>
+    </label>
+
+    <label class="role-option">
         <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            autocomplete="current-password"
+            type="radio"
+            name="role"
+            value="admin"
         >
 
-        <button type="submit">Login</button>
-
-    </form>
+        <span>♢</span>
+        Administrator
+        <span class="check">✓</span>
+    </label>
 
 </div>
+
+
+                <?php if (!empty($error)): ?>
+
+                    <div class="error-message">
+                        <span>ⓘ</span>
+
+                        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+                    </div>
+
+                <?php endif; ?>
+
+
+                <div class="form-group">
+
+                    <label for="email">Email address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        value="<?= htmlspecialchars($_POST["email"] ?? "", ENT_QUOTES, 'UTF-8') ?>"
+                        required
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            onclick="togglePassword()"
+                            aria-label="Show or hide password"
+                        >
+                            ◉
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-options">
+
+                    <label class="remember">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+
+                    <a href="#">Need help signing in?</a>
+
+                </div>
+
+
+                <button type="submit" class="sign-in-button">
+                    Sign in <span>→</span>
+                </button>
+
+
+                <p class="register-link">
+                    Not a customer yet?
+                    <a href="../register.php">Create an account</a>
+                </p>
+
+            </form>
+
+        </div>
+
+
+        <footer class="login-footer">
+            © 2026 Form & Field
+            <span>·</span>
+            <a href="#">Privacy policy</a>
+            <span>·</span>
+            <a href="#">Need help?</a>
+        </footer>
+
+    </section>
+
+</div>
+
+
+<script>
+
+function togglePassword() {
+
+    const password = document.getElementById("password");
+
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+
+}
+
+
+
+
+document.querySelectorAll('input[name="role"]').forEach(function(input) {
+
+    input.addEventListener("change", function() {
+
+        document.querySelectorAll(".role-option").forEach(function(option) {
+            option.classList.remove("selected");
+        });
+
+        this.closest(".role-option").classList.add("selected");
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>
