@@ -1,0 +1,290 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #252B27;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    width: 1080px;
+    min-height: 740px;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    background: #F7F6F2;
+    overflow: hidden;
+}
+
+/* LEFT IMAGE */
+
+.image-section {
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.48),
+            transparent 65%
+        ),
+        url("../images/background.jpeg") center/cover no-repeat;
+
+    padding: 38px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+.brand h2 {
+    font-family: Georgia, serif;
+    font-size: 21px;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.brand p {
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-top: 6px;
+}
+
+.image-text span {
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.image-text h1 {
+    font-family: Georgia, serif;
+    font-size: 33px;
+    font-weight: normal;
+    line-height: 1.2;
+    margin: 16px 0;
+}
+
+.image-text p {
+    font-size: 11px;
+    line-height: 1.7;
+    max-width: 340px;
+}
+
+.image-text a {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    margin-top: 17px;
+}
+
+/* RIGHT FORM */
+
+.form-section {
+    padding: 30px 12%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.top-link {
+    text-align: right;
+    font-size: 10px;
+    color: #85877F;
+}
+
+.top-link a {
+    color: #294F40;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.form-content {
+    width: 100%;
+    max-width: 450px;
+    margin: auto;
+}
+
+.small-heading {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #294F40;
+}
+
+.form-content h1 {
+    font-family: Georgia, serif;
+    font-size: 27px;
+    font-weight: normal;
+    margin-top: 9px;
+}
+
+.description {
+    font-size: 10px;
+    color: #85877F;
+    line-height: 1.7;
+    margin: 9px 0 20px;
+}
+
+.name-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.form-group input {
+    width: 100%;
+    height: 39px;
+    padding: 0 12px;
+    background: white;
+    border: 1px solid #E2E1DB;
+    border-radius: 4px;
+    outline: none;
+    font-size: 10px;
+    color: #252B27;
+}
+
+.form-group input:focus {
+    border-color: #294F40;
+}
+
+.form-group small {
+    display: block;
+    font-size: 9px;
+    color: #85877F;
+    margin-top: 7px;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 40px;
+}
+
+.password-field button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: #85877F;
+    cursor: pointer;
+}
+
+.password-error {
+    color: #C94C4C !important;
+}
+
+.password-success {
+    color: #294F40 !important;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.terms input {
+    accent-color: #294F40;
+}
+
+.terms label {
+    font-size: 9px;
+    color: #85877F;
+}
+
+.register-button {
+    width: 100%;
+    height: 39px;
+    background: #294F40;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background: #203D32;
+}
+
+.register-button span {
+    margin-left: 8px;
+}
+
+.error-message {
+    background: #FCEFEB;
+    color: #B7473D;
+    padding: 10px;
+    font-size: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 9px;
+    color: #85877F;
+    padding: 10px 0 5px;
+}
+
+.footer span {
+    margin: 0 8px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+    body {
+        background: #F7F6F2;
+    }
+
+    .register-container {
+        width: 100%;
+        min-height: 100vh;
+        grid-template-columns: 1fr;
+    }
+
+    .image-section {
+        min-height: 260px;
+    }
+
+    .image-text h1 {
+        font-size: 25px;
+    }
+
+    .form-section {
+        padding: 25px 7%;
+    }
+
+    .form-content {
+        margin: 45px auto;
+    }
+}
+
+@media (max-width: 420px) {
+    .name-fields {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
