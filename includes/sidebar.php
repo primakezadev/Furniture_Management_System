@@ -32,7 +32,7 @@ $currentPage = basename($_SERVER["PHP_SELF"]);
     </a>
 
     <a href="change_password.php"
-       class="<?= $currentPage == 'change_password.php' ? 'active' : '' ?>">
+       class="<?= $currentPage == 'change_password_page.php' ? 'active' : '' ?>">
         Change Password
     </a>
 
