@@ -6,7 +6,7 @@ $currentPage = basename($_SERVER["PHP_SELF"]);
 <aside class="sidebar">
 
     <div class="brand">
-        <h2>FORM & FIELD</h2>
+        <h2>NESTORA</h2>
         <small>ADMIN WORKSPACE</small>
     </div>
 
