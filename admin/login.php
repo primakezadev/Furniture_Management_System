@@ -11,7 +11,7 @@ require_once __DIR__ . '/../authentication/login_process.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sign In | Form & Field</title>
+    <title>Sign In | NESTORA</title>
 
     <link rel="stylesheet" href="../assets/css/login.css">
 </head>
@@ -25,7 +25,7 @@ require_once __DIR__ . '/../authentication/login_process.php';
     <section class="brand-section">
 
         <div class="brand-logo">
-            <h1>FORM & FIELD</h1>
+            <h1>NESTORA</h1>
             <p>FURNITURE FOR A CONSIDERED LIFE</p>
         </div>
 
@@ -63,7 +63,7 @@ require_once __DIR__ . '/../authentication/login_process.php';
 
             <div class="welcome-text">
 
-                <span>WELCOME TO FORM & FIELD</span>
+                <span>WELCOME TO NESTORA</span>
 
                 <h2>Make yourself at home.</h2>
 
@@ -170,7 +170,9 @@ require_once __DIR__ . '/../authentication/login_process.php';
                         Remember me
                     </label>
 
-                    <a href="#">Need help signing in?</a>
+                <a href="../authentication/forgot_password.php">
+    Forgot password?
+</a>
 
                 </div>
 
@@ -191,7 +193,7 @@ require_once __DIR__ . '/../authentication/login_process.php';
 
 
         <footer class="login-footer">
-            © 2026 Form & Field
+            © 2026 NESTORA
             <span>·</span>
             <a href="#">Privacy policy</a>
             <span>·</span>

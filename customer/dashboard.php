@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         $_SESSION['cart_message'] = "This furniture is out of stock.";
     }
 
-    header("Location: dashboard.php?" . http_build_query($_GET));
+  header("Location: " . basename($_SERVER['PHP_SELF']) . "?" . http_build_query($_GET));
     exit;
 }
 
@@ -177,7 +177,7 @@ function pageUrl($pageNumber, $queryParams) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Furniture Collection | Form & Field</title>
+    <title>Furniture Collection | NESTORA</title>
 
     <link rel="stylesheet" href="../assets/css/customer.css">
 </head>
@@ -195,20 +195,31 @@ function pageUrl($pageNumber, $queryParams) {
 <header class="navbar">
 
     <a href="dashboard.php" class="logo">
-        FORM & FIELD
+        NESTORA
         <small>FURNITURE FOR A CONSIDERED LIFE</small>
     </a>
 
 
-    <nav>
-        <a href="dashboard.php" class="active">Furniture</a>
-        
-        <a href="dashboard.php?category=Living">Living</a>
-        <a href="dashboard.php?category=Dining">Dining</a>
-        <a href="#our-story">Our story</a>
-     <a href="order_history.php">My Orders</a>
+   <nav>
+    <a href="dashboard.php"
+       class="<?= basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'active' : '' ?>">
+        Furniture
+    </a>
 
-    </nav>
+    <a href="living.php"
+       class="<?= basename($_SERVER['PHP_SELF']) === 'living.php' ? 'active' : '' ?>">
+        Living
+    </a>
+
+    <a href="dining.php"
+       class="<?= basename($_SERVER['PHP_SELF']) === 'dining.php' ? 'active' : '' ?>">
+        Dining
+    </a>
+
+    <a href="our_story.php">Our Story</a>
+
+    <a href="order_history.php">My Orders</a>
+</nav>
    
 
     <div class="account">
@@ -216,7 +227,7 @@ function pageUrl($pageNumber, $queryParams) {
             ♙ <?= htmlspecialchars($customerName) ?>
         </span>
 
-        <a href="../customer/change-password.php">Password</a>
+      
         <a href="logout.php">Log out</a>
         <a href="cart.php" class="bag-link">
             ♧ Bag (<?= $cartCount ?>)
@@ -445,7 +456,7 @@ function pageUrl($pageNumber, $queryParams) {
                             <?php if (!empty($item['image'])): ?>
 
                                 <img
-                                    src="../uploads/<?= htmlspecialchars($item['image']) ?>"
+                                    src="../assets/images/furniture/<?= htmlspecialchars($item['image']) ?>"
                                     alt="<?= htmlspecialchars($item['furniture_name']) ?>"
                                 >
 

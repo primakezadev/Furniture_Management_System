@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" &&
             ":order_id" => $orderId
         ]);
 
-        header("Location: manage_orders.php?updated=1");
+        header("Location: manage_order.php?updated=1");
         exit;
     }
 }

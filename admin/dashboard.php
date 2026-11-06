@@ -135,10 +135,10 @@ require_once __DIR__ . "/../includes/sidebar.php";
 
             <h1>Good morning, <?= $username ?>.</h1>
 
-            <p>Here's what's happening at Form & Field today.</p>
+            <p>Here's what's happening at NESTORA today.</p>
         </div>
 
-        <a href="add_furniture.php" class="register-btn">
+        <a href="../furniture/add_furniture.php" class="register-btn">
             Register furniture <i class="fa-solid fa-plus"></i>
         </a>
 
@@ -252,7 +252,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
                     <small>Review incoming customer orders</small>
                 </div>
 
-                <a href="manage_orders.php">↗</a>
+                <a href="../orders/manage_order.php">↗</a>
             </div>
 
             <div class="attention-item">
@@ -263,10 +263,10 @@ require_once __DIR__ . "/../includes/sidebar.php";
                     <small>Furniture with 5 or fewer items in stock</small>
                 </div>
 
-                <a href="manage_furniture.php">↗</a>
+                <a href="../furniture/manage_furniture.php">↗</a>
             </div>
 
-            <a href="manage_orders.php" class="review-btn">
+            <a href="../orders/manage_orders.php" class="review-btn">
                 Review incoming orders
             </a>
 
