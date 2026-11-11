@@ -138,7 +138,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
             <p>Here's what's happening at NESTORA today.</p>
         </div>
 
-        <a href="../furniture/add_furniture.php" class="register-btn">
+        <a href="../furniture/manage_furniture.php" class="register-btn">
             Register furniture <i class="fa-solid fa-plus"></i>
         </a>
 

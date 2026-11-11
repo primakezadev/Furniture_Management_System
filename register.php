@@ -9,7 +9,7 @@ require_once __DIR__ . "/authentication/register_process.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | Form & Field</title>
+    <title>Create Account | NESTORA</title>
     <link rel="stylesheet" href="assets/css/register.css">
 </head>
 

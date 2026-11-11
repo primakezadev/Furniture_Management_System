@@ -1,4 +1,3 @@
-
 <?php
-$_GET['category'] = 'Dining';
+$_GET['room_category'] = 'dining';
 require __DIR__ . '/dashboard.php';

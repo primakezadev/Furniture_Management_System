@@ -167,6 +167,94 @@ require_once __DIR__ . "/../includes/sidebar.php";
 
 <main class="main-content">
 
+<style>
+/* Order details section */
+.order-details-panel {
+    background: #ffffff !important;
+    border: 1px solid #E5E5DE !important;
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 25px;
+    box-sizing: border-box;
+}
+
+.order-details-panel .orders-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #E5E5DE;
+}
+
+.order-details-panel .customer-order-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    padding: 20px;
+    background: #F7F6F2;
+    border-radius: 6px;
+}
+
+.order-details-panel .items-title {
+    color: #294D3E;
+    font-family: 'Playfair Display', serif;
+    margin: 25px 0 15px;
+}
+
+/* Ordered furniture table */
+.order-details-panel .table-container table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    background: #FFFFFF !important;
+}
+
+.order-details-panel .table-container table thead tr {
+    background: #F0F0E9 !important;
+}
+
+.order-details-panel .table-container table th {
+    padding: 15px !important;
+    background: #F0F0E9 !important;
+    color: #294D3E !important;
+    text-align: left !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    border-bottom: 1px solid #DDDED5 !important;
+}
+
+.order-details-panel .table-container table td {
+    padding: 16px 15px !important;
+    color: #303632 !important;
+    background: #FFFFFF !important;
+    font-size: 13px !important;
+    text-align: left !important;
+    border-bottom: 1px solid #EAEAE4 !important;
+}
+
+.order-details-panel .order-grand-total {
+    text-align: right;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #E5E5DE;
+    color: #294D3E;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+@media (max-width: 650px) {
+    .order-details-panel .customer-order-info {
+        grid-template-columns: 1fr;
+    }
+
+    .order-details-panel .table-container {
+        overflow-x: auto;
+    }
+}
+</style>
+
+
     <header class="topbar">
         <div class="breadcrumb">
             Workspace <span>/</span> Orders
@@ -238,7 +326,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
             <button type="submit">Search</button>
 
             <?php if ($search !== ""): ?>
-                <a href="manage_orders.php">Clear</a>
+                <a href="manage_order.php">Clear</a>
             <?php endif; ?>
 
         </form>
@@ -303,7 +391,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
                                 <td>
                                     <a
                                         class="view-link"
-                                        href="manage_orders.php?view=<?= (int)$order["order_id"] ?>"
+                                        href="manage_order.php?view=<?= (int)$order["order_id"] ?>"
                                     >
                                         View details →
                                     </a>
@@ -404,7 +492,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
                         details
                     </h3>
 
-                    <a href="manage_orders.php">Close ×</a>
+                    <a href="manage_order.php">Close ×</a>
                 </div>
 
                 <div class="customer-order-info">
@@ -501,7 +589,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
     <?php endif; ?>
 
     <footer class="page-footer">
-        <span>Form & Field · Furniture information management</span>
+        <span>NESTORA · Furniture information management</span>
         <span>© <?= date("Y") ?></span>
     </footer>
 

@@ -12,29 +12,25 @@ $currentPage = basename($_SERVER["PHP_SELF"]);
 
     <nav class="sidebar-nav">
 
-        <a href="dashboard.php"
-           class="<?= $currentPage == 'dashboard.php' ? 'active' : '' ?>">
-            <i class="fa-solid fa-table-columns"></i>
-            Overview
-        </a>
+        <a href="../admin/dashboard.php">
+    <i class="fa-solid fa-house"></i>
+    Overview
+</a>
 
-        <a href="add_furniture.php"
-           class="<?= $currentPage == 'add_furniture.php' ? 'active' : '' ?>">
-            <i class="fa-solid fa-couch"></i>
-            Furniture
-        </a>
+      <a href="../furniture/manage_furniture.php"
+   class="<?= $currentPage == 'manage_furniture.php' ? 'active' : '' ?>">
+    <i class="fa-solid fa-couch"></i> Furniture
+</a>
 
-        <a href="manage_customers.php"
-           class="<?= $currentPage == 'manage_customers.php' ? 'active' : '' ?>">
-            <i class="fa-solid fa-users"></i>
-            Customers
-        </a>
 
-        <a href="manage_orders.php"
-           class="<?= $currentPage == 'manage_orders.php' ? 'active' : '' ?>">
-            <i class="fa-solid fa-box"></i>
-            Orders
-        </a>
+<a href="../admin/manage_customers.php"
+   class="<?= $currentPage == 'manage_customers.php' ? 'active' : '' ?>">
+    <i class="fa-solid fa-users"></i> Customers
+</a>
+       <a href="../orders/manage_order.php"
+   class="<?= $currentPage == 'manage_order.php' ? 'active' : '' ?>">
+    <i class="fa-solid fa-box"></i> Orders
+</a>
 
     </nav>
 

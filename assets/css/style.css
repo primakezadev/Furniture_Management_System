@@ -802,3 +802,61 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
+
+/* NESTORA - Ordered Furniture Table Fix */
+
+.order-details-panel .table-container {
+    width: 100% !important;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.order-details-panel .table-container table {
+    width: 100% !important;
+    min-width: 550px;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    table-layout: auto;
+    background: #FFFFFF !important;
+}
+
+.order-details-panel .table-container table thead {
+    background: #F0F0E9 !important;
+}
+
+.order-details-panel .table-container table th {
+    background: #F0F0E9 !important;
+    color: #294D3E !important;
+    padding: 15px 18px !important;
+    text-align: left !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid #DDDED5 !important;
+}
+
+.order-details-panel .table-container table td {
+    padding: 16px 18px !important;
+    text-align: left !important;
+    font-size: 13px !important;
+    color: #303632 !important;
+    border-bottom: 1px solid #EAEAE4 !important;
+    background: #FFFFFF !important;
+}
+
+.order-details-panel .table-container table tbody tr:hover td {
+    background: #F9F9F5 !important;
+}
+
+.order-details-panel .order-grand-total {
+    display: block;
+    text-align: right;
+    margin-top: 20px;
+    padding: 20px 5px 5px;
+    border-top: 1px solid #E5E5DE;
+    color: #294D3E;
+    font-size: 19px;
+    font-weight: 700;
+}
