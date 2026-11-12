@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION["customer_id"] = $user["customer_id"];
                     $_SESSION["customer_name"] = $user["full_name"];
 
-                    header("Location: ../customer/dashboard.php");
-                    exit;
+                 header("Location: customer/dashboard.php");
+exit;
 
                 } else {
 

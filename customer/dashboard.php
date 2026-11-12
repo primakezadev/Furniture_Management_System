@@ -17,7 +17,7 @@ $customerId = $isLoggedIn
 
 $currentPage = basename($_SERVER['PHP_SELF']);
 
-$customerName = $_SESSION['customer_name'] ?? 'Customer';
+
 
 
 $currentPage = basename($_SERVER['PHP_SELF']);
@@ -738,40 +738,44 @@ function pageUrl($pageNumber, $queryParams) {
                                 </div>
 
                             <?php endif; ?>
+    <?php if ((int)$item['quantity'] > 0): ?>
 
-                            <?php if ((int)$item['quantity'] > 0): ?>
+    <div class="add-cart-form">
 
-                                <form
-                                    method="POST"
-                                    action="<?= htmlspecialchars($currentPage) ?>?<?= htmlspecialchars(http_build_query($_GET)) ?>"
-                                    class="add-cart-form"
-                                >
+        <?php if ($isLoggedIn): ?>
 
-                                    <input
-                                        type="hidden"
-                                        name="furniture_id"
-                                        value="<?= (int)$item['furniture_id'] ?>"
-                                    >
+            <form method="POST">
+                <input type="hidden" name="furniture_id"
+                       value="<?= (int)$item['furniture_id'] ?>">
 
-                                    <button
-                                        type="submit"
-                                        name="add_to_cart"
-                                        class="add-cart"
-                                        title="Add to bag"
-                                    >
-                                        +
-                                    </button>
+                <button type="submit"
+                        name="add_to_cart"
+                        class="add-cart"
+                        title="Add to bag">
+                    +
+                </button>
+            </form>
 
-                                </form>
+        <?php else: ?>
 
-                            <?php else: ?>
+            <button
+                type="button"
+                class="add-cart"
+                title="Sign in to order"
+                onclick="showLoginAlert()">
+                +
+            </button>
 
-                                <span class="out-stock">
-                                    Out of stock
-                                </span>
+        <?php endif; ?>
 
-                            <?php endif; ?>
+    </div>
 
+<?php else: ?>
+
+    <span class="out-stock">Out of stock</span>
+
+<?php endif; ?>
+                             
                         </div>
 
                         <div class="product-info">
@@ -900,6 +904,13 @@ if (priceRange && priceValue) {
 
 }
 
+</script>
+<script>
+function showLoginAlert() {
+    alert("Please sign in to your account before adding furniture to your bag.");
+
+    window.location.href = "../login.php";
+}
 </script>
 
 </body>

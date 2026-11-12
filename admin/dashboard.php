@@ -279,7 +279,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
 
         <div class="orders-heading">
             <h3>Recent orders</h3>
-            <a href="manage_orders.php">View all orders →</a>
+            <a href="../orders/manage_order.php">View all orders →</a>
         </div>
 
         <div class="table-container">
@@ -333,8 +333,11 @@ require_once __DIR__ . "/../includes/sidebar.php";
                                 </td>
 
                                 <td>
-                                    <a class="view-link" href="manage_orders.php">
-                                        View order →
+                                    <a
+                                        class="view-link"
+                                        href="../orders/manage_order.php?view=<?= (int)$order["order_id"] ?>"
+                                    >
+                                        View details →
                                     </a>
                                 </td>
                             </tr>
@@ -360,7 +363,7 @@ require_once __DIR__ . "/../includes/sidebar.php";
     </section>
 
     <footer class="page-footer">
-        <span>Form & Field · Furniture information management</span>
+        <span>NESTORA · Furniture information management</span>
         <span>© <?= date("Y") ?></span>
     </footer>
 

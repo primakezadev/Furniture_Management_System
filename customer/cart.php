@@ -126,7 +126,7 @@ $cartCount = array_sum($cart);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Your Bag | Form & Field</title>
+    <title>Your Bag | NESTORA</title>
 
     <link rel="stylesheet" href="../assets/css/customer.css">
     <link rel="stylesheet" href="../assets/css/cart.css">
@@ -141,7 +141,7 @@ $cartCount = array_sum($cart);
 <header class="navbar">
 
     <a href="dashboard.php" class="logo">
-        FORM & FIELD
+        NESTORA
         <small>FURNITURE FOR A CONSIDERED LIFE</small>
     </a>
 
@@ -204,7 +204,7 @@ $cartCount = array_sum($cart);
                                 <?php if (!empty($item["image"])): ?>
 
                                     <img
-                                        src="../uploads/<?= htmlspecialchars($item["image"]) ?>"
+                                        src="../assets/images/furniture/<?= htmlspecialchars($item["image"]) ?>"
                                         alt="<?= htmlspecialchars($item["furniture_name"]) ?>"
                                     >
 

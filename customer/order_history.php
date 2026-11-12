@@ -99,7 +99,7 @@ if (isset($_GET["id"])) {
 <header class="navbar">
 
     <a href="dashboard.php" class="logo">
-        FORM & FIELD
+        NESTORA
         <small>FURNITURE FOR A CONSIDERED LIFE</small>
     </a>
 
@@ -159,7 +159,7 @@ if (isset($_GET["id"])) {
                         <?php if (!empty($item["image"])): ?>
 
                             <img
-                                src="../uploads/<?= htmlspecialchars($item["image"]) ?>"
+                                src="../assets/images/furniture/<?= htmlspecialchars($item["image"]) ?>"
                                 alt="<?= htmlspecialchars($item["furniture_name"]) ?>"
                             >
 
@@ -300,7 +300,7 @@ if (isset($_GET["id"])) {
 </main>
 
 <footer>
-    © <?= date("Y") ?> Form & Field · Furniture for a considered life.
+    © <?= date("Y") ?> NESTORA · Furniture for a considered life.
 </footer>
 
 </body>
