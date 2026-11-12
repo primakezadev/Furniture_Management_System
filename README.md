@@ -40,10 +40,11 @@ This project was developed for the Backend Development Using PHP module (ITLDP60
 - Composer
 - PHPMailer 7.1
 - XAMPP (local development environment)
+- infinityfree(deployement live environment
 
 ## Project Structure
 
-```text
+
 Furniture_Management_System/
 ├── admin/             # Admin pages and management functions
 ├── assets/
@@ -65,7 +66,7 @@ Furniture_Management_System/
 ├── composer.lock      # Locked dependency versions
 ├── .gitignore
 └── README.md
-```
+
 
 ## Requirements
 
@@ -81,23 +82,22 @@ Before running the project, install:
 
 Open PowerShell or Command Prompt and run:
 
-```bash
+
 git clone https://github.com/primakezadev/Furniture_Management_System.git
-```
+
 
 ### 2. Move the project into the XAMPP web directory
 
 Place the project folder inside:
 
-```text
+
 C:\xampp\htdocs\
-```
+
 
 For the current local development setup, the project may be located at:
 
-```text
+
 C:\xamp_new\htdocs\Furniture_Management_System
-```
 
 ### 3. Start Apache and MySQL
 
@@ -110,9 +110,9 @@ C:\xamp_new\htdocs\Furniture_Management_System
 1. Open `http://localhost/phpmyadmin` in your browser.
 2. Create a database named:
 
-```text
+
 furniture_management
-```
+
 
 3. Open the project's `database/` folder.
 4. Import the provided SQL file into the `furniture_management` database using phpMyAdmin.
@@ -123,18 +123,18 @@ The imported database should create the tables required by the application.
 
 Open:
 
-```text
+
 config/database.php
-```
+
 
 Check that the connection settings match your local MySQL configuration. The local development defaults are:
 
-```php
+
 $host = "localhost";
 $dbname = "furniture_management";
 $username = "root";
 $password = "";
-```
+
 
 If your MySQL username or password is different, update the values in the configuration file. Keep database credentials private and do not commit production credentials to GitHub.
 
@@ -142,23 +142,22 @@ If your MySQL username or password is different, update the values in the config
 
 From the project root, run:
 
-```bash
+
 composer install
-```
+
 
 This installs the dependencies listed in `composer.lock`, including PHPMailer, and creates the `vendor/` directory if it is not present.
 
 ### 7. Configure email functionality (if required)
 
-Email features use PHPMailer. Configure the SMTP host, port, username, password, and sender details in the relevant project configuration. Use an email app password or other provider-approved SMTP credentials where required. Do not publish SMTP credentials in the repository.
+Email features use PHPMailer. Configure the SMTP host, port, username, password, and sender details in the relevant project configuration. Use an email app password or other provider-approved SMTP credentials where required. 
 
 ### 8. Run the application
 
 Open the following address in your browser:
 
-```text
 http://localhost/Furniture_Management_System/
-```
+
 
 If your XAMPP installation uses a different web-root folder, use the matching local URL.
 
@@ -169,7 +168,10 @@ The application has two roles:
 - **Admin:** uses an administrator account.
 - **Customer:** can create an account through the registration page.
 
-No default administrator username or password is documented in this README. Use the administrator account configured for your project or create one using the project's database setup instructions. For security, do not publish real passwords in a public repository.
+
+  ## How to access account
+  -**Admin:** uses email: admin@nestora.com & password: Password12212!
+  -**Customer:** uses email: 
 
 ## Security Notes
 
