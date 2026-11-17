@@ -21,7 +21,7 @@ require_once __DIR__ . "/authentication/register_process.php";
     <div class="image-section">
 
         <div class="brand">
-            <h2>FORM & FIELD</h2>
+            <h2>NESTORA</h2>
             <p>FURNITURE FOR A CONSIDERED LIFE</p>
         </div>
 
@@ -167,7 +167,7 @@ require_once __DIR__ . "/authentication/register_process.php";
         </div>
 
         <div class="footer">
-            © 2026 Form & Field
+            © 2026 NESTORA
             <span>·</span> Privacy policy
             <span>·</span> Need help?
         </div>

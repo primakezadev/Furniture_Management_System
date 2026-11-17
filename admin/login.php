@@ -1,7 +1,58 @@
+
 <?php
 session_start();
 
-require_once __DIR__ . '/../authentication/login_process.php';
+require_once __DIR__ . '/../config/database.php';
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $email = trim($_POST["email"] ?? "");
+    $password = $_POST["password"] ?? "";
+
+    if (empty($email) || empty($password)) {
+        $error = "Please enter your email and password.";
+
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please enter a valid email address.";
+
+    } else {
+
+        try {
+
+            // Search only in the administrators table
+            $sql = "SELECT admin_id, username, email, password
+                    FROM admins
+                    WHERE email = :email";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':email' => $email]);
+
+            $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($admin && password_verify($password, $admin["password"])) {
+
+                session_regenerate_id(true);
+
+                $_SESSION["admin_id"] = $admin["admin_id"];
+                $_SESSION["admin_username"] = $admin["username"];
+
+                header("Location: dashboard.php");
+                exit;
+
+            } else {
+                $error = "Invalid administrator email or password.";
+            }
+
+        } catch (PDOException $e) {
+
+            error_log("Admin login error: " . $e->getMessage());
+            $error = "A system error occurred. Please try again.";
+
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +62,7 @@ require_once __DIR__ . '/../authentication/login_process.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sign In | NESTORA</title>
+    <title>Administrator Login | NESTORA</title>
 
     <link rel="stylesheet" href="../assets/css/login.css">
 </head>
@@ -19,8 +70,6 @@ require_once __DIR__ . '/../authentication/login_process.php';
 <body>
 
 <div class="login-page">
-
-    <!-- LEFT BRANDING SECTION -->
 
     <section class="brand-section">
 
@@ -31,80 +80,48 @@ require_once __DIR__ . '/../authentication/login_process.php';
 
         <div class="brand-content">
 
-            <span>THOUGHTFULLY BY NATURE</span>
+            <span>ADMINISTRATION PORTAL</span>
 
             <h2>
-                A little more natural.<br>
-                A little more you.
+                Manage your space.<br>
+                Manage your store.
             </h2>
 
             <p>
-                Honest materials. Enduring forms.
-                Furniture that makes room for the life you love.
+                Access the NESTORA administration portal
+                to manage furniture, customers and orders.
             </p>
 
-            <a href="../index.php">Discover the collection ↗</a>
+            <a href="../index.php">Return to the website ↗</a>
 
         </div>
 
     </section>
 
 
-    <!-- RIGHT LOGIN SECTION -->
-
     <section class="form-section">
 
         <div class="top-link">
-            New here?
-            <a href="../register.php">Create an account</a>
+            <a href="../login.php">Customer login</a>
         </div>
 
         <div class="login-content">
 
             <div class="welcome-text">
 
-                <span>WELCOME TO NESTORA</span>
+                <span>WELCOME TO NESTORA ADMINISTRATION</span>
 
-                <h2>Make yourself at home.</h2>
+                <h2>Administrator sign in.</h2>
 
-                <p>Sign in to discover considered pieces for your space.</p>
+                <p>
+                    Sign in with your administrator account
+                    to access the management dashboard.
+                </p>
 
             </div>
 
 
             <form method="POST" action="">
-
-                <label class="role-label">I'm signing in as</label>
-
-                <div class="role-selection">
-
-    <label class="role-option selected">
-        <input
-            type="radio"
-            name="role"
-            value="customer"
-            checked
-        >
-
-        <span>♙</span>
-        Customer
-        <span class="check">✓</span>
-    </label>
-
-    <label class="role-option">
-        <input
-            type="radio"
-            name="role"
-            value="admin"
-        >
-
-        <span>♢</span>
-        Administrator
-        <span class="check">✓</span>
-    </label>
-
-</div>
-
 
                 <?php if (!empty($error)): ?>
 
@@ -119,16 +136,16 @@ require_once __DIR__ . '/../authentication/login_process.php';
 
                 <div class="form-group">
 
-                    <label for="email">Email address</label>
+                    <label for="email">Administrator email</label>
 
                     <input
                         type="email"
                         id="email"
                         name="email"
-                        placeholder="Enter your email address"
+                        placeholder="Enter your administrator email"
                         value="<?= htmlspecialchars($_POST["email"] ?? "", ENT_QUOTES, 'UTF-8') ?>"
                         required
-                        autocomplete="email"
+                        autocomplete="username"
                     >
 
                 </div>
@@ -165,27 +182,16 @@ require_once __DIR__ . '/../authentication/login_process.php';
 
                 <div class="form-options">
 
-                    <label class="remember">
-                        <input type="checkbox" name="remember">
-                        Remember me
-                    </label>
-
-                <a href="../authentication/forgot_password.php">
-    Forgot password?
-</a>
+                    <a href="../authentication/forgot_password.php">
+                        Forgot password?
+                    </a>
 
                 </div>
 
 
                 <button type="submit" class="sign-in-button">
-                    Sign in <span>→</span>
+                    Administrator Sign In <span>→</span>
                 </button>
-
-
-                <p class="register-link">
-                    Not a customer yet?
-                    <a href="../register.php">Create an account</a>
-                </p>
 
             </form>
 
@@ -211,30 +217,10 @@ function togglePassword() {
 
     const password = document.getElementById("password");
 
-    if (password.type === "password") {
-        password.type = "text";
-    } else {
-        password.type = "password";
-    }
+    password.type =
+        password.type === "password" ? "text" : "password";
 
 }
-
-
-
-
-document.querySelectorAll('input[name="role"]').forEach(function(input) {
-
-    input.addEventListener("change", function() {
-
-        document.querySelectorAll(".role-option").forEach(function(option) {
-            option.classList.remove("selected");
-        });
-
-        this.closest(".role-option").classList.add("selected");
-
-    });
-
-});
 
 </script>
 

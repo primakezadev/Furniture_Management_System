@@ -224,7 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" &&
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Checkout | Form & Field</title>
+    <title>Checkout | NESTORA</title>
 
     <link rel="stylesheet" href="../assets/css/customer.css">
     <link rel="stylesheet" href="../assets/css/cart.css">
@@ -239,7 +239,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" &&
 <header class="navbar">
 
     <a href="dashboard.php" class="logo">
-        FORM & FIELD
+        NESTORA
         <small>FURNITURE FOR A CONSIDERED LIFE</small>
     </a>
 
@@ -336,7 +336,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" &&
                                 <?php if (!empty($item["image"])): ?>
 
                                     <img
-                                        src="../uploads/<?= htmlspecialchars($item["image"]) ?>"
+                                        src="../assets/images/furniture/<?= htmlspecialchars($item["image"]) ?>"
                                         alt="<?= htmlspecialchars($item["furniture_name"]) ?>"
                                     >
 
