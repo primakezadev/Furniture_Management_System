@@ -1,0 +1,20 @@
+# Environment and private configuration
+.env
+.env.*
+!.env.example
+
+# Dependencies
+/vendor/
+
+# Temporary and log files
+*.log
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local backups
+*.bak
+*.old
