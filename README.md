@@ -171,7 +171,7 @@ The application has two roles:
 
   ## How to access account
   -**Admin:** uses email: admin@nestora.com & password: Password12212!
-  -**Customer:** uses email: 
+  -**Customer:** uses email: prima@gmail.com & password: Password12212!
 
 ## Security Notes
 
@@ -199,13 +199,13 @@ For deployment:
 
 **Live application URL:** Add the deployed application URL here after deployment.
 
-## Contributors
+## 10. Contributors
 
-**Group VI — IT Option, Level Six, Year Two**
+**Group VI – IT Option, Level Six, Year Two**
 
-*Keza Prima
-*Kwizera Elvis
-*Imanishimwe Julienne
+1. Keza Prima
+2. Kwizera Elvis
+3. Imanishimwe Julienne
 
 ## Academic Information
 
